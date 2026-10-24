@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University - النظام الجامعي</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #cbd5e1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 26px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: right;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* خاصية لإخفاء وإظهار الصفحات */
+        .hidden {
+            display: none;
+        }
+
+        .success-msg {
+            background-color: #d1fae5;
+            color: #065f46;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 14px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- الصفحة الأولى: تسجيل الدخول -->
+        <div id="loginPage" class="card">
+            <h1>University</h1>
+            <p class="subtitle">تسجيل الدخول إلى النظام الأكاديمي</p>
+            
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">اسم المستخدم</label>
+                    <input type="text" id="username" placeholder="أدخل اسم المستخدم" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">كلمة السر</label>
+                    <input type="password" id="password" placeholder="أدخل كلمة السر" required>
+                </div>
+                
+                <button type="submit" class="btn">دخول</button>
+            </form>
+        </div>
+
+        <!-- الصفحة الثانية: بيانات الطالب -->
+        <div id="studentPage" class="card hidden">
+            <h1>University</h1>
+            <p class="subtitle">إدخال وتحديث بيانات الطالب</p>
+            
+            <form id="studentForm" onsubmit="handleStudentSubmit(event)">
+                <div class="form-group">
+                    <label for="studentName">اسم الطالب</label>
+                    <input type="text" id="studentName" placeholder="الاسم الرباعي" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="studentId">رقم الطالب</label>
+                    <input type="text" id="studentId" placeholder="مثال: 2026001" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="studentAddress">عنوان الطالب</label>
+                    <input type="text" id="studentAddress" placeholder="المدينة / الحي / الشارع" required>
+                </div>
+                
+                <button type="submit" class="btn">حفظ البيانات</button>
+            </form>
+
+            <div id="successMessage" class="success-msg">تم حفظ بيانات الطالب بنجاح!</div>
+        </div>
+
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault(); // منع إعادة تحميل الصفحة
+            
+            // يمكنك إضافة شروط تحقق هنا إذا أردت
+            // الانتقال من صفحة تسجيل الدخول إلى صفحة بيانات الطالب
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('studentPage').classList.remove('hidden');
+        }
+
+        function handleStudentSubmit(event) {
+            event.preventDefault(); // منع إعادة تحميل الصفحة
+            
+            // إظهار رسالة نجاح الحفظ
+            const successMsg = document.getElementById('successMessage');
+            successMsg.style.display = 'block';
+
+            // قراءة القيم المدخلة في الكونسول (اختباري)
+            const name = document.getElementById('studentName').value;
+            const id = document.getElementById('studentId').value;
+            const address = document.getElementById('studentAddress').value;
+            
+            console.log("بيانات الطالب المُدخلة:", { name, id, address });
+        }
+    </script>
+
+</body>
+</html>
